@@ -12,8 +12,15 @@ const BookItem = props => {
     });
   }
 
-  const { book } = props;
+  const { book, savedBooks } = props;
   const { imageLinks, title, authors, shelf } = book;
+  let updateShelf = shelf;
+  if (!shelf) {
+    const findBook = savedBooks.filter(bk => bk.id === book.id);
+    if (findBook.length > 0) {
+      updateShelf = findBook[0].shelf;
+    }
+  }
   const { thumbnail } = imageLinks;
   const authorsString = authors ? authors.join(', ') : '';
   return (
@@ -27,12 +34,12 @@ const BookItem = props => {
               height: 193,
               backgroundImage: `url("${thumbnail}")` }}
             />
-            <div className="book-shelf-changer">
+            <div>
               <BookAction
-                selected={shelf}
+                selected={updateShelf}
                 onChange={onChange}
               />
-            </div>
+           </div>
         </div>
         <div className="book-title">{title}</div>
         <div className="book-authors">{authorsString}</div>
@@ -43,7 +50,8 @@ const BookItem = props => {
 
 BookItem.propTypes = {
   book: PropTypes.object,
-  bookUpdate: PropTypes.func
+  bookUpdate: PropTypes.func,
+  savedBooks: PropTypes.arrayOf(PropTypes.object)
 };
 
 export default BookItem;

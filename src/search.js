@@ -1,22 +1,28 @@
-import React from 'react'
+import React, { Component } from 'react';
 import * as BooksAPI from './BooksAPI';
 import BookShelf from './components/bookShelf';
 import { Link } from 'react-router-dom';
 
 const initialState = {
-  books: []
+  books: [],
+  savedBooks: []
 };
 
-class Search extends React.Component{
-	constructor(props) {
+class Search extends Component {
+
+  constructor(props) {
     super(props);
     this.state = initialState;
     this.renderShelf = this.renderShelf.bind(this);
     this.onKeyDown = this.onKeyDown.bind(this);
+    this.fetchBooks = this.fetchBooks.bind(this);
   }
 
+  componentDidMount() {
+    this.fetchBooks();
+  }
   renderShelf() {
-    const { books } = this.state;
+    const { books, savedBooks } = this.state;
 
     if (!books || books.length <= 0) {
       return (
@@ -28,6 +34,8 @@ class Search extends React.Component{
         key="serch-shelf"
         type="Search"
         books={books}
+        savedBooks={savedBooks}
+        bookUpdate={this.fetchBooks}
       />
     );
   }
@@ -38,6 +46,11 @@ class Search extends React.Component{
       });
     }
 
+  }
+  fetchBooks() {
+    BooksAPI.getAll().then((savedBooks) => {
+      this.setState({ savedBooks });
+    });
   }
   render() {
     return (
@@ -60,4 +73,4 @@ class Search extends React.Component{
   }
 }
 
-export default Search
+export default Search;

@@ -2,8 +2,7 @@ import React from 'react'
 import Book from './Books'
 import Search from './search'
 import {Route} from 'react-router-dom'
-import * as BookAPI from './BooksAPI'
-
+import './App.css'
 class App extends React.Component{
 	state={
 		books:[]
@@ -12,7 +11,7 @@ class App extends React.Component{
     return (
       <div>
       <Route exact path="/" component={Book}/>
-  <Route exact path="/search" component={Search}/>
+    <Route exact path="/search" component={Search}/>
    </div>
      )
   }
