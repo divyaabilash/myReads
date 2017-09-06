@@ -7,9 +7,12 @@ const BookAction = props => {
     props.onChange(e.target.value);
   }
   const { selected } = props;
+
+
   return (
+
     <div className="book-shelf-changer">
-      <select value={selected} onChange={onChanged}>
+      <select value={(selected === undefined ? 'none' : selected)} onChange={onChanged}>
         <option value="none" disabled>Move to...</option>
         <option value="currentlyReading">Currently Reading</option>
         <option value="wantToRead">Want to Read</option>
